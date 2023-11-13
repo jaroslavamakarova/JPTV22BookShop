@@ -23,8 +23,8 @@ public class App {
     private List<Product> products;
     private List<Customer> customer;
     private List<History> histories;
-    private final ProductManager ProductManager;
-    private final CustomerManager CustomerManager;
+    private ProductManager ProductManager;
+    private CustomerManager CustomerManager;
     private HistoryManager historyManager;
     private SaveManager saveManager;
     
@@ -49,9 +49,9 @@ public class App {
             System.out.println("2. Print list customers");
             System.out.println("3. Sell product to customer");
             System.out.println("4. Return product");
-            System.out.println("5. Print list ");
+            System.out.println("5. Print selling products ");
             System.out.println("6. Ranking of products being sold");
-            System.out.println("7. Most Popular Products");
+            System.out.println("7. Top up balance");
             System.out.print("Enter number task: ");
             int task = InputFromKeyboard.inputNumberFromRange(0,9);
             switch (task) {
@@ -67,11 +67,11 @@ public class App {
                     saveManager.saveCustomers(customer);
                     break;
                 case 1:
-                    ProductManager.pirntListProducts(products);
+                    ProductManager.printListProducts(products);
                     break;
-                //case 2:
-                       //customerManager.printListCustomers(customers);
-                        //break;
+               case 2:
+                       CustomerManager.printListCustomers(customer);
+                        break;
                 case 3:
                     History history = historyManager.sellProductToCustomer(customer, products);
                     if(history != null){
@@ -91,7 +91,8 @@ public class App {
                     historyManager.printRankingOfProductsBeingSold(this.histories);
                     break;
                 case 7:
-                    System.out.println("Implementation expected");
+                    System.out.println("Top up your balance");
+                    historyManager.processTransaction(histories, repeat);
                     break;
                 default:
                     System.out.println("Select number from list tasks!");

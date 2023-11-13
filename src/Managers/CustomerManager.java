@@ -48,20 +48,24 @@ public class CustomerManager {
         int replenishAmount = scanner.nextInt();
         customer.addToBalance(replenishAmount);
     }
-    int pirntListCustomers(List<Customer> customers) {
-      int count = 0;
+      
+
+    public int printListCustomers(List<Customer> customer) {
+        
+    int count = 0;
         System.out.println("List customers: ");
-        for (int i = 0; i < customers.size(); i++) {
+        for (int i = 0; i < customer.size(); i++) {
             System.out.printf("%d. %s %s - Phone: %s, Balance: %d%n",
                     i + 1,
-                    customers.get(i).getFirstname(),
-                    customers.get(i).getLastname(),
-                    customers.get(i).getPhone(),
-                    customers.get(i).getBalance()
+                    customer.get(i).getFirstname(),
+                    customer.get(i).getLastname(),
+                    customer.get(i).getPhone(),
+                    customer.get(i).getBalance()
             );
             count++;
         }
         return count;
-    }
+    
+}
 }
 

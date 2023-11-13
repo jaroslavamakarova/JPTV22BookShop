@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaveManager {
-    private final String PRODUCT_FILENAME = "books";
-    private final String CUSTOMER_FILENAME = "readers";
+    private final String PRODUCT_FILENAME = "products";
+    private final String CUSTOMER_FILENAME = "customers";
     private final String HISTORY_FILENAME = "histories";
     public void saveProducts(List<Product> products){
         FileOutputStream fos;
@@ -31,7 +31,7 @@ public class SaveManager {
             System.out.println("File not fount");
         } catch (IOException ex) {
             System.out.println("I/O error");
-        }   
+        }
     }
     public List<Product> loadProducts(){
         List<Product> products = new ArrayList<>();
@@ -63,7 +63,7 @@ public class SaveManager {
         } catch (IOException ex) {
             System.out.println("I/O error");
         }
-        
+
     }
     public List<Customer> loadCustomers(){
         List<Customer> customers = new ArrayList<>();
@@ -95,7 +95,7 @@ public class SaveManager {
         } catch (IOException ex) {
             System.out.println("I/O error");
         }
-        
+
     }
     public List<History> loadHistories(){
         List<History> histories = new ArrayList<>();
