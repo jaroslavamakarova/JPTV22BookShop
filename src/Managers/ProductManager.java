@@ -71,7 +71,7 @@ public class ProductManager {
         }
         return count;
     }
-public void CopyOfAnExistingBookInTheShop(List<Product> products) {
+public void CopyOfAnExistingProductInTheShop(List<Product> products) {
         this.printListProducts(products);
         System.out.println("Enter the book number to add copies: "); 
         int bookNumber = InputFromKeyboard.inputNumberFromRange(1,products.size());

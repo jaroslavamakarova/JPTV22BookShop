@@ -55,6 +55,11 @@ public class App {
             System.out.println("8. Add a copy of an existing product in the shop");
             System.out.print("Enter number task: ");
             int task = InputFromKeyboard.inputNumberFromRange(0,9);
+            System.out.printf("Selected task %d, continue? (y/n): ",task);
+            String continueRun = InputFromKeyboard.inputSymbolYesOrNo();
+            if(continueRun.equals("n")){
+                continue;
+            }
             switch (task) {
                 case 0:
                     repeat = false;
@@ -96,7 +101,7 @@ public class App {
                     historyManager.processTransaction(histories, repeat);
                     break;
                 case 8:
-                    ProductManager.CopyOfAnExistingBookInTheShop(products);
+                    ProductManager.CopyOfAnExistingProductInTheShop(products);
                     saveManager.saveProducts(products);
                 default:
                     System.out.println("Select number from list tasks!");
