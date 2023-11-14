@@ -71,4 +71,15 @@ public class ProductManager {
         }
         return count;
     }
+public void CopyOfAnExistingBookInTheShop(List<Product> products) {
+        this.printListProducts(products);
+        System.out.println("Enter the book number to add copies: "); 
+        int bookNumber = InputFromKeyboard.inputNumberFromRange(1,products.size());
+        System.out.println("How many copies of the book should I add?: "); 
+        int copyNumber = InputFromKeyboard.inputNumberFromRange(1,10);
+        products.get(bookNumber - 1).setQuantity(products.get(bookNumber - 1)
+                .getQuantity() + copyNumber);
+         products.get(bookNumber - 1).setCount(products.get(bookNumber - 1)
+                .getCount() + copyNumber);
+    }  
 }

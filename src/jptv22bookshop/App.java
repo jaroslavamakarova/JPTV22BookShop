@@ -40,8 +40,8 @@ public class App {
     }
     void run() {
         boolean repeat = true;
-        System.out.println("------ Welcome to Book Shop ------");
-        System.out.println("-------- 'Book in Home' -------");
+        System.out.println("------ Welcome to Book Shop -------");
+        System.out.println("------- 'Book to the house' -------");
         do{
             System.out.println("List tasks:");
             System.out.println("0. Exit");
@@ -52,17 +52,18 @@ public class App {
             System.out.println("5. Print selling products ");
             System.out.println("6. Ranking of products being sold");
             System.out.println("7. Top up balance");
+            System.out.println("8. Add a copy of an existing product in the shop");
             System.out.print("Enter number task: ");
             int task = InputFromKeyboard.inputNumberFromRange(0,9);
             switch (task) {
                 case 0:
                     repeat = false;
                     break;
-                case 8:
+                case 9:
                     products.add(ProductManager.addProduct());
                     saveManager.saveProducts(this.products);//save to file
                     break;
-                case 9:
+                case 10:
                     customer.add(CustomerManager.addCustomer());
                     saveManager.saveCustomers(customer);
                     break;
@@ -94,6 +95,9 @@ public class App {
                     System.out.println("Top up your balance");
                     historyManager.processTransaction(histories, repeat);
                     break;
+                case 8:
+                    ProductManager.CopyOfAnExistingBookInTheShop(products);
+                    saveManager.saveProducts(products);
                 default:
                     System.out.println("Select number from list tasks!");
             }

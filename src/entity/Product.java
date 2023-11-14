@@ -11,7 +11,7 @@ public class Product implements Serializable{
     private String title;
     private int publishedYear;
     private Author[] authors = new Author[0];
-    private int quantity; //Всего закупленных в библиотеку экземпляров
+    private int quantity; //Всего закупленных в магазин экземпляров
     private int count; //экземпляров в наличии.
     private int price;
     public Product() {
