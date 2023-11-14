@@ -33,7 +33,7 @@ public class Product implements Serializable{
                 + ", author/s" + Arrays.toString(authors) 
                 + ", quantity " + quantity
                 + ", count " + count
-                +  "price" + price;
+                +  " price" + price;
     }
 
     public void addAuthor(Author author) {

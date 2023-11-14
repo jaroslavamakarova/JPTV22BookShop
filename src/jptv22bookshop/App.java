@@ -41,7 +41,7 @@ public class App {
     void run() {
         boolean repeat = true;
         System.out.println("------ Welcome to Book Shop ------");
-        System.out.println("------ 'Book in Home' ------");
+        System.out.println("-------- 'Book in Home' -------");
         do{
             System.out.println("List tasks:");
             System.out.println("0. Exit");

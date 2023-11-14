@@ -12,7 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import static java.util.Map.entry;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import tools.InputFromKeyboard;
@@ -142,10 +141,11 @@ public void processTransaction(List<History> histories, boolean sell) {
                         (oldValue, newValue) -> oldValue,
                         LinkedHashMap::new));
 
-        System.out.println("Ranking of products being sold:");
-        int n = 1;
-        for (Map.Entry<Product, Integer> entry : sortedMap.entrySet()) {
-            System.out.printf("%d. %s");
-        }
+           System.out.println("Ranking of products being sold:");
+    int n = 1;
+    for (Map.Entry<Product, Integer> entry : sortedMap.entrySet()) {
+        System.out.printf("%d. %s - %d times%n",
+                n++, entry.getKey().getTitle(), entry.getValue());
     }
+}
 }
