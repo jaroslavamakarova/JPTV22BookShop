@@ -2,6 +2,7 @@
 package Managers;
 
 import entity.Author;
+import entity.Customer;
 import entity.Product;
 import java.util.Arrays;
 import java.util.List;
@@ -25,13 +26,11 @@ public class ProductManager {
         System.out.println("----- Add new product -----");
         Product product = new Product();
         
-        // Set basic product information
         System.out.print("Enter title: ");
         product.setTitle(scanner.nextLine());
         System.out.print("Enter published year: ");
         product.setPublishedYear(InputFromKeyboard.inputNumberFromRange(1800, 2050));
-        
-        // Set authors
+
         System.out.print("How many authors: ");
         int countAuthors = InputFromKeyboard.inputNumberFromRange(1, 5);
         for (int i = 0; i < countAuthors; i++) {
@@ -42,8 +41,7 @@ public class ProductManager {
             String authorLastname = scanner.nextLine();
             product.addAuthor(new Author(authorFirstname, authorLastname));
         }
-        
-        // Set quantity copy and price
+
         System.out.print("Enter quantity copy: ");
         product.setQuantity(InputFromKeyboard.inputNumberFromRange(1, 10));
 
@@ -53,6 +51,77 @@ public class ProductManager {
         product.setCount(product.getQuantity());
         System.out.println("Added product: " + product.toString());
         return product;
+    }
+
+public void CopyOfAnExistingProductInTheShop(List<Product> products) {
+        this.printListProducts(products);
+        System.out.println("Enter the book number to add copies: "); 
+        int bookNumber = InputFromKeyboard.inputNumberFromRange(1,products.size());
+        System.out.println("How many copies of the book should I add?: "); 
+        int copyNumber = InputFromKeyboard.inputNumberFromRange(1,10);
+        products.get(bookNumber - 1).setQuantity(products.get(bookNumber - 1)
+                .getQuantity() + copyNumber);
+         products.get(bookNumber - 1).setCount(products.get(bookNumber - 1)
+                .getCount() + copyNumber);
+    }  
+
+public void updateProducts(List<Product> products) {
+        int productIndex = selectProductIndex(products);
+        if (productIndex != -1) {
+            Product productToUpdate = products.get(productIndex);
+
+            System.out.println("Enter new data for the product:");
+            System.out.print("Title: ");
+            productToUpdate.setTitle(scanner.nextLine());
+            System.out.print("Published Year: ");
+            productToUpdate.setPublishedYear(InputFromKeyboard.inputNumberFromRange(1800, 2050));
+
+            System.out.print("Authors (separate authors with comma): ");
+            String authorsInput = scanner.nextLine();
+            String[] authorsArray = authorsInput.split(","); 
+
+            Author[] authors = new Author[authorsArray.length]; // Создать массив объектов Author
+
+            // Преобразовать строки в объекты Author
+            for (int i = 0; i < authorsArray.length; i++) {
+                String[] authorNames = authorsArray[i].trim().split(" ");
+                if (authorNames.length == 2) {
+                    authors[i] = new Author(authorNames[0], authorNames[1]);
+                } else {
+                    System.out.println("Invalid author format for: " + authorsArray[i]);
+                }
+            }
+
+            productToUpdate.setAuthors(authors);
+            
+            System.out.print("Quantity: ");
+            productToUpdate.setQuantity(InputFromKeyboard.inputNumberFromRange(1, 10));
+
+            System.out.print("Price: ");
+            productToUpdate.setPrice(InputFromKeyboard.inputNumberFromRange(1, 145));
+
+            productToUpdate.setCount(productToUpdate.getQuantity());
+
+            System.out.println("Product data updated successfully:");
+            System.out.println(productToUpdate.toString());
+        } else {
+            System.out.println("Product not found.");
+        }
+    }
+
+
+    private int selectProductIndex(List<Product> products) {
+        int count = printListProducts(products);
+        if (count > 0) {
+            System.out.print("Enter the number of the product to update: ");
+            int productNumber = scanner.nextInt();
+            scanner.nextLine(); // очистить буфер
+
+            if (productNumber >= 1 && productNumber <= count) {
+                return productNumber - 1;
+            }
+        }
+        return -1;
     }
 
     public int printListProducts(List<Product> products) {
@@ -71,15 +140,4 @@ public class ProductManager {
         }
         return count;
     }
-public void CopyOfAnExistingProductInTheShop(List<Product> products) {
-        this.printListProducts(products);
-        System.out.println("Enter the book number to add copies: "); 
-        int bookNumber = InputFromKeyboard.inputNumberFromRange(1,products.size());
-        System.out.println("How many copies of the book should I add?: "); 
-        int copyNumber = InputFromKeyboard.inputNumberFromRange(1,10);
-        products.get(bookNumber - 1).setQuantity(products.get(bookNumber - 1)
-                .getQuantity() + copyNumber);
-         products.get(bookNumber - 1).setCount(products.get(bookNumber - 1)
-                .getCount() + copyNumber);
-    }  
 }

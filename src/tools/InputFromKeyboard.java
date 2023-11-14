@@ -55,5 +55,16 @@ public class InputFromKeyboard {
             }
             System.out.println("For continue press \"y\", to exsit press \"n\"");
         }while(true);
-    } 
+    }
+        public static boolean askForCustomerUpdate() {
+        System.out.println("Do you want to update customers? (y/n)");
+        String сhoice = inputSymbolYesOrNo();
+        return сhoice.equals("y");
+    }
+        public static boolean askForProductUpdate() {
+        System.out.println("Do you want to update products? (y/n)");
+        String сhoice = inputSymbolYesOrNo();
+        return сhoice.equals("y");
+    }
 }
+

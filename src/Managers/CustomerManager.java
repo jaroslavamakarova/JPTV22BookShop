@@ -10,9 +10,6 @@ import java.util.Scanner;
  *
  * @author user
  */
-import java.util.List;
-import java.util.Scanner;
-
 public class CustomerManager {
 
     private final Scanner scanner;
@@ -67,5 +64,41 @@ public class CustomerManager {
         return count;
     
 }
+    public void updateCustomers(List<Customer> customers) {
+        int customerIndex = selectCustomerIndex(customers);
+        if (customerIndex != -1) {
+            Customer customerToUpdate = customers.get(customerIndex);
+
+            System.out.println("Enter new data for the customer:");
+            System.out.print("Firstname: ");
+            customerToUpdate.setFirstname(scanner.nextLine());
+            System.out.print("Lastname: ");
+            customerToUpdate.setLastname(scanner.nextLine());
+            System.out.print("Phone: ");
+            customerToUpdate.setPhone(scanner.nextLine());
+            System.out.print("Initial Balance: ");
+            int initialBalance = scanner.nextInt();
+            customerToUpdate.setBalance(initialBalance);
+
+            System.out.println("Customer data updated successfully:");
+            System.out.println(customerToUpdate.toString());
+        } else {
+            System.out.println("Customer not found.");
+        }
+    }
+
+    private int selectCustomerIndex(List<Customer> customers) {
+        int count = printListCustomers(customers);
+        if (count > 0) {
+            System.out.print("Enter the number of the customer to update: ");
+            int customerNumber = scanner.nextInt();
+            scanner.nextLine(); // consume newline character
+
+            if (customerNumber >= 1 && customerNumber <= count) {
+                return customerNumber - 1; // adjusting index for the selected customer
+            }
+        }
+        return -1; // customer not found or invalid input
+    }
 }
 

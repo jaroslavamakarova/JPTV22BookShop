@@ -54,7 +54,7 @@ public class App {
             System.out.println("7. Top up balance");
             System.out.println("8. Add a copy of an existing product in the shop");
             System.out.print("Enter number task: ");
-            int task = InputFromKeyboard.inputNumberFromRange(0,9);
+            int task = InputFromKeyboard.inputNumberFromRange(0,10);
             System.out.printf("Selected task %d, continue? (y/n): ",task);
             String continueRun = InputFromKeyboard.inputSymbolYesOrNo();
             if(continueRun.equals("n")){
@@ -74,9 +74,19 @@ public class App {
                     break;
                 case 1:
                     ProductManager.printListProducts(products);
+                    boolean updateProducts = InputFromKeyboard.askForProductUpdate();
+            if (updateProducts) {
+                ProductManager.updateProducts(products);
+                saveManager.saveProducts(products);
+            }
                     break;
                case 2:
                        CustomerManager.printListCustomers(customer);
+            boolean updateCustomers = InputFromKeyboard.askForCustomerUpdate();
+            if (updateCustomers) {
+                CustomerManager.updateCustomers(customer);
+                saveManager.saveCustomers(customer);
+            }
                         break;
                 case 3:
                     History history = historyManager.sellProductToCustomer(customer, products);
@@ -108,7 +118,5 @@ public class App {
             }
             System.out.println("-------------------------");
         }while(repeat);
-    }
-
-    
+    }   
 }
