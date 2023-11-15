@@ -56,29 +56,38 @@ public class HistoryManager {
         }
     }
 
+public void printCustomersByPurchaseCount(List<History> histories, List<Customer> customers) {
+    Map<Customer, Integer> customerPurchaseCount = new HashMap<>();
 
-    public int printListSoldProduct(List<History> histories) {
-        int countSoldProduct = 0;
-        System.out.println("List selling products:");
-
-        for (int i = 0; i < histories.size(); i++) {
-            if (histories.get(i).getReturnProduct() == null) {
-                System.out.printf("%d. %s. selling %s %s%n",
-                        i + 1,
-                        histories.get(i).getProduct().getTitle(),
-                        histories.get(i).getCustomer().getFirstname(),
-                        histories.get(i).getCustomer().getLastname()
-                );
-                countSoldProduct++;
+    // Подсчитываем количество покупок для каждого покупателя
+    for (History history : histories) {
+        Customer currentCustomer = history.getCustomer();
+        if (history.getReturnProduct() == null) {
+            if (customerPurchaseCount.containsKey(currentCustomer)) {
+                customerPurchaseCount.put(currentCustomer, customerPurchaseCount.get(currentCustomer) + 1);
+            } else {
+                customerPurchaseCount.put(currentCustomer, 1);
             }
         }
-
-        if (countSoldProduct < 1) {
-            System.out.println("\tNo products to sell");
-        }
-
-        return countSoldProduct;
     }
+
+    // Сортируем покупателей по количеству покупок
+    Map<Customer, Integer> sortedCustomersByPurchaseCount = customerPurchaseCount.entrySet()
+            .stream()
+            .sorted(Map.Entry.<Customer, Integer>comparingByValue().reversed())
+            .collect(Collectors.toMap(
+                    Map.Entry::getKey,
+                    Map.Entry::getValue,
+                    (oldValue, newValue) -> oldValue,
+                    LinkedHashMap::new));
+
+    System.out.println("Customers by purchase count:");
+    int count = 1;
+    for (Map.Entry<Customer, Integer> entry : sortedCustomersByPurchaseCount.entrySet()) {
+        System.out.printf("%d. %s %s - Number of purchases: %d%n",
+                count++, entry.getKey().getFirstname(), entry.getKey().getLastname(), entry.getValue());
+    }
+}
 
     public void printRankingOfProductsBeingSold(List<History> histories) {
         Map<Product, Integer> mapProducts = new HashMap<>();

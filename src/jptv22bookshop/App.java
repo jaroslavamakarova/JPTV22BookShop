@@ -49,7 +49,7 @@ public class App {
             System.out.println("3. Print list products");
             System.out.println("4. Print list customers");
             System.out.println("5. Sell product to customer");
-            System.out.println("6. Print selling products");
+            System.out.println("6. Customers By Purchase Count");
             System.out.println("7. Ranking of products being sold");
             System.out.println("8. Top up balance");
             System.out.println("9. Store rating");
@@ -99,7 +99,7 @@ public class App {
                     }
                     break;
                 case 6:
-                    historyManager.printListSoldProduct(histories);
+                    historyManager.printCustomersByPurchaseCount(histories, customers);
                     break;
                 case 7:
                     historyManager.printRankingOfProductsBeingSold(this.histories);
