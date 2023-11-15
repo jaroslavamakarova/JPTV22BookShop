@@ -45,14 +45,16 @@ public class App {
         do{
             System.out.println("List tasks:");
             System.out.println("0. Exit");
-            System.out.println("1. Print list products");
-            System.out.println("2. Print list customers");
-            System.out.println("3. Sell product to customer");
-            System.out.println("4. Return product");
-            System.out.println("5. Print selling products ");
-            System.out.println("6. Ranking of products being sold");
-            System.out.println("7. Top up balance");
-            System.out.println("8. Add a copy of an existing product in the shop");
+            System.out.println("1. Add Product");
+            System.out.println("2. Add Customer");
+            System.out.println("3. Print list products");
+            System.out.println("4. Print list customers");
+            System.out.println("5. Sell product to customer");
+            System.out.println("6. Return product");
+            System.out.println("7. Print selling products ");
+            System.out.println("8. Ranking of products being sold");
+            System.out.println("9. Top up balance");
+            System.out.println("10. Store rating");
             System.out.print("Enter number task: ");
             int task = InputFromKeyboard.inputNumberFromRange(0,10);
             System.out.printf("Selected task %d, continue? (y/n): ",task);
@@ -64,15 +66,15 @@ public class App {
                 case 0:
                     repeat = false;
                     break;
-                case 9:
+                case 1:
                     products.add(ProductManager.addProduct());
                     saveManager.saveProducts(this.products);//save to file
                     break;
-                case 10:
+                case 2:
                     customer.add(CustomerManager.addCustomer());
                     saveManager.saveCustomers(customer);
                     break;
-                case 1:
+                case 3:
                     ProductManager.printListProducts(products);
                     boolean updateProducts = InputFromKeyboard.askForProductUpdate();
             if (updateProducts) {
@@ -80,7 +82,7 @@ public class App {
                 saveManager.saveProducts(products);
             }
                     break;
-               case 2:
+               case 4:
                        CustomerManager.printListCustomers(customer);
             boolean updateCustomers = InputFromKeyboard.askForCustomerUpdate();
             if (updateCustomers) {
@@ -88,31 +90,31 @@ public class App {
                 saveManager.saveCustomers(customer);
             }
                         break;
-                case 3:
+                case 5:
                     History history = historyManager.sellProductToCustomer(customer, products);
                     if(history != null){
                         this.histories.add(history);
                         saveManager.saveHistories(histories);
                     }
                     break;
-                case 4:
+                case 6:
                     historyManager.returnProduct(histories);
                     saveManager.saveHistories(histories);
                     break;
-                case 5:
+                case 7:
                     historyManager.printListSoldProduct(histories);
                     break;
-                case 6:
+                case 8:
                     //System.out.println("Implementation expected");
                     historyManager.printRankingOfProductsBeingSold(this.histories);
                     break;
-                case 7:
+                case 9:
                     System.out.println("Top up your balance");
                     historyManager.processTransaction(histories, repeat);
                     break;
-                case 8:
-                    ProductManager.CopyOfAnExistingProductInTheShop(products);
-                    saveManager.saveProducts(products);
+                case 10:
+                    historyManager.calculateTotalSales(histories);
+                    break;
                 default:
                     System.out.println("Select number from list tasks!");
             }

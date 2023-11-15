@@ -51,20 +51,7 @@ public class ProductManager {
         product.setCount(product.getQuantity());
         System.out.println("Added product: " + product.toString());
         return product;
-    }
-
-public void CopyOfAnExistingProductInTheShop(List<Product> products) {
-        this.printListProducts(products);
-        System.out.println("Enter the book number to add copies: "); 
-        int bookNumber = InputFromKeyboard.inputNumberFromRange(1,products.size());
-        System.out.println("How many copies of the book should I add?: "); 
-        int copyNumber = InputFromKeyboard.inputNumberFromRange(1,10);
-        products.get(bookNumber - 1).setQuantity(products.get(bookNumber - 1)
-                .getQuantity() + copyNumber);
-         products.get(bookNumber - 1).setCount(products.get(bookNumber - 1)
-                .getCount() + copyNumber);
     }  
-
 public void updateProducts(List<Product> products) {
         int productIndex = selectProductIndex(products);
         if (productIndex != -1) {
@@ -79,10 +66,8 @@ public void updateProducts(List<Product> products) {
             System.out.print("Authors (separate authors with comma): ");
             String authorsInput = scanner.nextLine();
             String[] authorsArray = authorsInput.split(","); 
-
-            Author[] authors = new Author[authorsArray.length]; // Создать массив объектов Author
-
-            // Преобразовать строки в объекты Author
+            
+            Author[] authors = new Author[authorsArray.length]; 
             for (int i = 0; i < authorsArray.length; i++) {
                 String[] authorNames = authorsArray[i].trim().split(" ");
                 if (authorNames.length == 2) {

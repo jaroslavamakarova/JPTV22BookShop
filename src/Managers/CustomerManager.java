@@ -6,6 +6,7 @@ package Managers;
 import entity.Customer;
 import java.util.List;
 import java.util.Scanner;
+import tools.InputFromKeyboard;
 /**
  *
  * @author user
@@ -40,13 +41,17 @@ public class CustomerManager {
         System.out.println(customer.toString());
     }
 
-    public void replenishBalance(Customer customer) {
-        System.out.print("Enter the amount to replenish: ");
-        int replenishAmount = scanner.nextInt();
-        customer.addToBalance(replenishAmount);
-    }
-      
+public void replenishBalance(Customer customer) {
+    System.out.print("Enter the amount to replenish: ");
+    int replenishAmount = InputFromKeyboard.inputNumberFromRange(1, Integer.MAX_VALUE);
+    
+    int currentBalance = customer.getBalance();
+    int newBalance = currentBalance + replenishAmount;
+    customer.setBalance(newBalance);
 
+    System.out.println("Balance replenished successfully.");
+    System.out.println("New balance for " + customer.getFirstname() + ": " + newBalance);
+}
     public int printListCustomers(List<Customer> customer) {
         
     int count = 0;

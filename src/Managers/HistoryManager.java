@@ -29,46 +29,30 @@ public class HistoryManager {
         this.productManager = new ProductManager(scanner);
     }
 
-    public History sellProductToCustomer(List<Customer> customers, List<Product> products) {
+    public History sellProductToCustomer(List<Customer>customers, List<Product> products) {
         System.out.println("------------- Sell the Product to Customer ----------------");
         History history = new History();
 
         int countCustomersInList = customerManager.printListCustomers(customers);
         System.out.print("Enter number customer: ");
-        int readerNumber = InputFromKeyboard.inputNumberFromRange(1, countCustomersInList);
+        int readerNumber = InputFromKeyboard.inputNumberFromRange(1, 
+                countCustomersInList);
         history.setCustomer(customers.get(readerNumber - 1));
 
         int countProductsInList = productManager.printListProducts(products);
         System.out.print("Enter number product: ");
-        int bookNumber = InputFromKeyboard.inputNumberFromRange(1, countProductsInList);
+        int bookNumber = InputFromKeyboard.inputNumberFromRange(1, 
+                countProductsInList);
         if (products.get(bookNumber - 1).getCount() > 0) {
             history.setProduct(products.get(bookNumber - 1));
-            products.get(bookNumber - 1).setCount(products.get(bookNumber - 1).getCount() - 1);
-            history.setSellProductToCustomerDate(new GregorianCalendar().getTime());
+            products.get(bookNumber - 1).setCount(products.get
+        (bookNumber - 1).getCount() - 1);
+            history.setSellProductToCustomerDate(new 
+        GregorianCalendar().getTime());
             return history;
         } else {
             System.out.println("All products are sold ");
             return null;
-        }
-    }
-
-    public void returnProduct(List<History> histories) {
-        System.out.println("-------- Return product to shop ---------");
-
-        int countSoldProducts = printListSoldProduct(histories);
-        if (countSoldProducts < 1) {
-            System.out.println("No products");
-            return;
-        }
-
-        System.out.print("Enter number product: ");
-        int historyNumber = InputFromKeyboard.inputNumberFromRange(1, histories.size());
-        if (histories.get(historyNumber - 1).getProduct().getCount() < histories.get(historyNumber - 1).getProduct().getQuantity()) {
-            histories.get(historyNumber - 1).setReturnProduct(new GregorianCalendar().getTime());
-            histories.get(historyNumber - 1).getProduct().setCount(histories.get(historyNumber - 1).getProduct().getCount() + 1);
-            System.out.printf("Product \"%s\" returned%n", histories.get(historyNumber - 1).getProduct().getTitle());
-        } else {
-            System.out.println("All products are already in stock");
         }
     }
 
@@ -87,13 +71,15 @@ public void processTransaction(List<History> histories, boolean sell) {
 
         if (customer.getBalance() >= totalPrice) {
             customer.setBalance(customer.getBalance() - totalPrice);
-            System.out.println("Transaction successful. Balance after purchase: " + customer.getBalance());
+            System.out.println("Transaction successful. Balance after purchase: "
+                    + customer.getBalance());
         } else {
             System.out.println("Insufficient funds. Transaction failed.");
         }
     } else {
         customer.setBalance(customer.getBalance() + product.getPrice());
-        System.out.println("Product returned. Balance after return: " + customer.getBalance());
+        System.out.println("Product returned. Balance after return: " 
+                + customer.getBalance());
     }
 }
 
@@ -148,4 +134,20 @@ public void processTransaction(List<History> histories, boolean sell) {
                 n++, entry.getKey().getTitle(), entry.getValue());
     }
 }
-}
+  
+    public void calculateTotalSales(List<History> histories) {
+       int totalSalesAmount = 0;
+        int totalSoldProducts = 0;
+
+        for (History history : histories) {
+            if (history.getReturnProduct() == null) {
+                totalSalesAmount += history.getProduct().getPrice();
+                totalSoldProducts++;
+            }
+        }
+
+        System.out.println("Total sales amount: " + totalSalesAmount);
+        System.out.println("Total sold products: " + totalSoldProducts);
+    }
+ 
+    }
