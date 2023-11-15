@@ -91,7 +91,18 @@ public void replenishBalance(Customer customer) {
             System.out.println("Customer not found.");
         }
     }
-
+ public void deductBalanceForProduct(Customer customer, int productPrice) {
+        if (customer.getBalance() >= productPrice) {
+            int newBalance = customer.getBalance() - productPrice;
+            customer.setBalance(newBalance);
+            System.out.println("Price deducted successfully.");
+            System.out.println("New balance for " + customer.getFirstname() 
+                    + ": " + newBalance);
+        } else {
+            System.out.println("Insufficient funds. Unable to deduct price.");
+        }
+    }
+ 
     private int selectCustomerIndex(List<Customer> customers) {
         int count = printListCustomers(customers);
         if (count > 0) {

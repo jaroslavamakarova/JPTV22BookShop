@@ -10,7 +10,7 @@ public class Customer implements Serializable {
     private String firstname;
     private String lastname;
     private String phone;
-    private int balance;  
+    private int balance;  // Change to int for balance
 
     public Customer() {
     }

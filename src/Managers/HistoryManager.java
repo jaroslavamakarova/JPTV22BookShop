@@ -56,33 +56,6 @@ public class HistoryManager {
         }
     }
 
-public void processTransaction(List<History> histories, boolean sell) {
-    Scanner scanner = new Scanner(System.in);
-    
-    System.out.print("Enter the index of the history item: ");
-    int index = InputFromKeyboard.inputNumberFromRange(1, histories.size()) - 1;
-
-    History history = histories.get(index);
-    Product product = history.getProduct();
-    Customer customer = history.getCustomer();
-
-    if (sell) {
-        int totalPrice = product.getPrice();
-
-        if (customer.getBalance() >= totalPrice) {
-            customer.setBalance(customer.getBalance() - totalPrice);
-            System.out.println("Transaction successful. Balance after purchase: "
-                    + customer.getBalance());
-        } else {
-            System.out.println("Insufficient funds. Transaction failed.");
-        }
-    } else {
-        customer.setBalance(customer.getBalance() + product.getPrice());
-        System.out.println("Product returned. Balance after return: " 
-                + customer.getBalance());
-    }
-}
-
 
     public int printListSoldProduct(List<History> histories) {
         int countSoldProduct = 0;

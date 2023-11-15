@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package jptv22bookshop;
 
 import Managers.CustomerManager;
 import Managers.HistoryManager;
@@ -63,7 +57,6 @@ public class App {
             switch (task) {
                 case 0:
                     repeat = false;
-                    System.out.println("Bye bye!");
                     break;
                 case 1:
                     products.add(productManager.addProduct());
@@ -94,8 +87,6 @@ public class App {
                     if (history != null) {
                         this.histories.add(history);
                         saveManager.saveHistories(histories);
-                        customerManager.deductBalanceForProduct(history.getCustomer(), history.getProduct().getPrice());
-                        saveManager.saveCustomers(customers);
                     }
                     break;
                 case 6:
