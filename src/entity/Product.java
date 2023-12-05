@@ -1,44 +1,61 @@
 package entity;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
-/*
-/**
- *
- * @author user
- */
-public class Product implements Serializable{
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+@Entity
+public class Product implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String title;
     private int publishedYear;
-    private Author[] authors = new Author[0];
-    private int quantity; //Всего закупленных в магазин экземпляров
-    private int count; //экземпляров в наличии.
+    private int quantity;
+    private int count;
     private int price;
-    public Product() {
+
+     public Product() {
     }
 
     public Product(String title, int publishedYear, int quantity, int count, int price) {
         this.title = title;
         this.publishedYear = publishedYear;
         this.quantity = quantity;
+        this.count = count;
         this.price = price;
     }
 
-    
-    @Override
-    public String toString() {
-        return "Product " 
-                + "Book  " + title 
-                + ", " + publishedYear 
-                + ", author/s" + Arrays.toString(authors) 
-                + ", quantity " + quantity
-                + ", count " + count
-                +  " price" + price;
+    public Long getId() {
+        return id;
     }
 
-    public void addAuthor(Author author) {
-        this.authors = Arrays.copyOf(this.authors, this.authors.length + 1);
-        this.authors[this.authors.length-1] = author;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getPublishedYear() {
+        return publishedYear;
+    }
+
+    public void setPublishedYear(int publishedYear) {
+        this.publishedYear = publishedYear;
     }
 
     public int getQuantity() {
@@ -56,6 +73,7 @@ public class Product implements Serializable{
     public void setCount(int count) {
         this.count = count;
     }
+
     public int getPrice() {
         return price;
     }
@@ -63,39 +81,16 @@ public class Product implements Serializable{
     public void setPrice(int price) {
         this.price = price;
     }
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getPublishedYear() {
-        return publishedYear;
-    }
-
-    public void setPublishedYear(int publishedYear) {
-        this.publishedYear = publishedYear;
-    }
-
-    public Author[] getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(Author[] authors) {
-        this.authors = authors;
-    }
 
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 41 * hash + Objects.hashCode(this.title);
-        hash = 41 * hash + this.publishedYear;
-        hash = 41 * hash + Arrays.deepHashCode(this.authors);
-        hash = 41 * hash + this.quantity;
-        hash = 41 * hash + this.count;
-        hash = 41 * hash + this.price;
+        hash = 59 * hash + Objects.hashCode(this.id);
+        hash = 59 * hash + Objects.hashCode(this.title);
+        hash = 59 * hash + this.publishedYear;
+        hash = 59 * hash + this.quantity;
+        hash = 59 * hash + this.count;
+        hash = 59 * hash + this.price;
         return hash;
     }
 
@@ -126,6 +121,24 @@ public class Product implements Serializable{
         if (!Objects.equals(this.title, other.title)) {
             return false;
         }
-        return Arrays.deepEquals(this.authors, other.authors);
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
+
+    @Override
+    public String toString() {
+        return "Product " 
+                + " " + id + ", " 
+                + title + ", " 
+                + publishedYear + ", quantity " 
+                + quantity + ", count " 
+                + count + ", price " 
+                + price + ' ';
+    }
+    
 }
+
+ 
+

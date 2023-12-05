@@ -6,16 +6,28 @@ package entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 /**
  *
  * @author user
  */
 public class History implements Serializable{
+      @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToOne
     private Product product;
+    @OneToOne
     private Customer customer;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date sellProducttoCustomerDate;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date returnProduct;
- public History() {
+
+    public History() {
     }
 
     public History(Product product, Customer customer, Date sellProducttoCustomerDate, Date returnProduct) {

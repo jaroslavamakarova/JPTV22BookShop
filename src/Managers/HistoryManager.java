@@ -89,6 +89,9 @@ public void printCustomersByPurchaseCount(List<History> histories, List<Customer
     }
 }
 
+
+
+
     public void printRankingOfProductsBeingSold(List<History> histories) {
         Map<Product, Integer> mapProducts = new HashMap<>();
         for (int i = 0; i < histories.size(); i++) {
@@ -117,7 +120,7 @@ public void printCustomersByPurchaseCount(List<History> histories, List<Customer
     }
 }
   
-    public void calculateTotalSales(List<History> histories) {
+      public void calculateTotalSales(List<History> histories) {
        int totalSalesAmount = 0;
         int totalSoldProducts = 0;
 
@@ -132,4 +135,4 @@ public void printCustomersByPurchaseCount(List<History> histories, List<Customer
         System.out.println("Total sold products: " + totalSoldProducts);
     }
  
-    }
+}
