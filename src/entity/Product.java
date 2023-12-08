@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Product implements Serializable {
@@ -19,10 +20,11 @@ public class Product implements Serializable {
     private Long id;
     private String title;
     private int publishedYear;
-    private int quantity;
-    private int count;
     private int price;
-
+@OneToMany
+    private List<Author> authors = new ArrayList<>();
+    private int quantity; //Всего закупленных в библиотеку экземпляров
+    private int count; //экземпляров в наличии.
      public Product() {
     }
 
@@ -81,7 +83,13 @@ public class Product implements Serializable {
     public void setPrice(int price) {
         this.price = price;
     }
+    public List<Author> getAuthors() {
+        return authors;
+    }
 
+    public void setAuthors(List<Author> authors) {
+        this.authors = authors;
+    }
     @Override
     public int hashCode() {
         int hash = 7;
@@ -129,16 +137,18 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product " 
-                + " " + id + ", " 
-                + title + ", " 
-                + publishedYear + ", quantity " 
-                + quantity + ", count " 
-                + count + ", price " 
-                + price + ' ';
+        return "Book"
+                + " " + id
+                + ", title " + title
+                + ", " + publishedYear
+                + ", author/s " + Arrays.toString(authors.toArray())
+                + ", quantity" + quantity
+                + ", count " + count +", price " + price
+                + ' ';
     }
-    
+
 }
+
 
  
 

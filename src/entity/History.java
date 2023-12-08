@@ -113,7 +113,6 @@ public class History implements Serializable{
                 + ", Customer" + customer.getFirstname()
                 + " " + customer.getLastname()
                 + ", Sold Product" + sellProducttoCustomerDate 
-                + ", Return product " + returnProduct 
                 + ' ';
     }
 }  

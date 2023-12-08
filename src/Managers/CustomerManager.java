@@ -4,25 +4,27 @@
  */
 package Managers;
 import entity.Customer;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.Scanner;
-import tools.InputFromKeyboard;
-/**
- *
- * @author user
- */
+
 public class CustomerManager {
 
     private final Scanner scanner;
+    private final EntityManager entityManager;
 
-    public CustomerManager(Scanner scanner) {
+    public CustomerManager(Scanner scanner, EntityManager entityManager) {
         this.scanner = scanner;
+        this.entityManager = entityManager;
     }
 
     public Customer addCustomer() {
-        Customer customer;
-        customer = new Customer();
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+
         System.out.println(" ----- Add new customer -----");
+        Customer customer = new Customer();
         System.out.print("Firstname: ");
         customer.setFirstname(scanner.nextLine());
         System.out.print("Lastname: ");
@@ -30,8 +32,12 @@ public class CustomerManager {
         System.out.print("Phone: ");
         customer.setPhone(scanner.nextLine());
         System.out.print("Initial Balance: ");
-        int initialBalance = scanner.nextInt();
+        int initialBalance = Integer.parseInt(scanner.nextLine());
         customer.setBalance(initialBalance);
+
+        entityManager.persist(customer);
+        transaction.commit();
+
         System.out.println("Added customer " + customer.toString());
         return customer;
     }
@@ -41,38 +47,27 @@ public class CustomerManager {
         System.out.println(customer.toString());
     }
 
-public void replenishBalance(Customer customer) {
-    System.out.print("Enter the amount to replenish: ");
-    int replenishAmount = InputFromKeyboard.inputNumberFromRange(1, Integer.MAX_VALUE);
-    
-    int currentBalance = customer.getBalance();
-    int newBalance = currentBalance + replenishAmount;
-    customer.setBalance(newBalance);
+    public void replenishBalance(Customer customer) {
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
 
-    System.out.println("Balance replenished successfully.");
-    System.out.println("New balance for " + customer.getFirstname() + ": " + newBalance);
-}
-    public int printListCustomers(List<Customer> customer) {
-        
-    int count = 0;
-        System.out.println("List customers: ");
-        for (int i = 0; i < customer.size(); i++) {
-            System.out.printf("%d. %s %s - Phone: %s, Balance: %d%n",
-                    i + 1,
-                    customer.get(i).getFirstname(),
-                    customer.get(i).getLastname(),
-                    customer.get(i).getPhone(),
-                    customer.get(i).getBalance()
-            );
-            count++;
-        }
-        return count;
+        System.out.print("Enter the amount to replenish: ");
+        int replenishAmount = Integer.parseInt(scanner.nextLine());
+
+        int currentBalance = customer.getBalance();
+        int newBalance = currentBalance + replenishAmount;
+        customer.setBalance(newBalance);
+
+        entityManager.merge(customer);
+        transaction.commit();
+
+        System.out.println("Balance replenished successfully.");
+        System.out.println("New balance for " + customer.getFirstname() + ": " + newBalance);
+    }
     
-}
-    public void updateCustomers(List<Customer> customers) {
-        int customerIndex = selectCustomerIndex(customers);
-        if (customerIndex != -1) {
-            Customer customerToUpdate = customers.get(customerIndex);
+      public void updateCustomer(Customer customerToUpdate) {
+        try {
+            entityManager.getTransaction().begin();
 
             System.out.println("Enter new data for the customer:");
             System.out.print("Firstname: ");
@@ -85,36 +80,59 @@ public void replenishBalance(Customer customer) {
             int initialBalance = scanner.nextInt();
             customerToUpdate.setBalance(initialBalance);
 
+            entityManager.merge(customerToUpdate);
+            entityManager.getTransaction().commit();
+
             System.out.println("Customer data updated successfully:");
             System.out.println(customerToUpdate.toString());
-        } else {
-            System.out.println("Customer not found.");
-        }
-    }
- public void deductBalanceForProduct(Customer customer, int productPrice) {
-        if (customer.getBalance() >= productPrice) {
-            int newBalance = customer.getBalance() - productPrice;
-            customer.setBalance(newBalance);
-            System.out.println("Price deducted successfully.");
-            System.out.println("New balance for " + customer.getFirstname() 
-                    + ": " + newBalance);
-        } else {
-            System.out.println("Insufficient funds. Unable to deduct price.");
-        }
-    }
- 
-    private int selectCustomerIndex(List<Customer> customers) {
-        int count = printListCustomers(customers);
-        if (count > 0) {
-            System.out.print("Enter the number of the customer to update: ");
-            int customerNumber = scanner.nextInt();
-            scanner.nextLine(); // consume newline character
-
-            if (customerNumber >= 1 && customerNumber <= count) {
-                return customerNumber - 1; // adjusting index for the selected customer
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
             }
+            e.printStackTrace();
+            System.out.println("Error occurred while updating customer data.");
         }
-        return -1; // customer not found or invalid input
+    }
+
+    public void deductBalanceForProduct(Customer customer, int productPrice) {
+        try {
+            entityManager.getTransaction().begin();
+
+            if (customer.getBalance() >= productPrice) {
+                int newBalance = customer.getBalance() - productPrice;
+                customer.setBalance(newBalance);
+                entityManager.merge(customer);
+
+                entityManager.getTransaction().commit();
+
+                System.out.println("Price deducted successfully.");
+                System.out.println("New balance for " + customer.getFirstname() + ": " + newBalance);
+            } else {
+                System.out.println("Insufficient funds. Unable to deduct price.");
+            }
+        } catch (Exception e) {
+            if (entityManager.getTransaction().isActive()) {
+                entityManager.getTransaction().rollback();
+            }
+            e.printStackTrace();
+            System.out.println("Error occurred while deducting balance for the product.");
+        }
+    }
+
+    public int printListCustomers() {
+        List<Customer> customers = entityManager.createQuery("SELECT c FROM Customer c", Customer.class).getResultList();
+        System.out.println("List customers: ");
+        for (int i = 0; i < customers.size(); i++) {
+            Customer customer = customers.get(i);
+            System.out.printf("%d. %s %s - Phone: %s, Balance: %d%n",
+                    i + 1,
+                    customer.getFirstname(),
+                    customer.getLastname(),
+                    customer.getPhone(),
+                    customer.getBalance()
+            );
+        }
+        return customers.size();
     }
 }
 

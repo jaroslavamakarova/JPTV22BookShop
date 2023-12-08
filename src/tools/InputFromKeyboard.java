@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package tools;
+import java.util.List;
 import java.util.Scanner;
 /**
  *
@@ -66,5 +67,26 @@ public class InputFromKeyboard {
         String сhoice = inputSymbolYesOrNo();
         return сhoice.equals("y");
     }
+            public static int inputNumberFromRange(List<Integer> listId){
+        Scanner scanner = new Scanner(System.in);
+        int number = -1;
+        do{
+            try {
+                number = scanner.nextInt();
+                scanner.nextLine();
+                if(!listId.contains(number)){
+                    continue;
+                }
+                return number;
+            } catch (Exception e) {
+                scanner.nextLine();
+            }
+        }while(true);
+        
+    }
+    
+    
 }
+
+
 
